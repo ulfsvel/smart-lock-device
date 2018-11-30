@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head th:replace="fragments/head"></head>
+<body class="">
+<div class="wrapper">
+    <div class="main-panel">
+        <div class="content">
+            <div th:include="${#strings.concat('fragments/content/', content)}" class="container-fluid">
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
