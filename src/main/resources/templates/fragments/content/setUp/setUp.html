@@ -1,0 +1,19 @@
+<div xmlns:th="http://www.thymeleaf.org" class="row js-devices-container">
+    <div class="card">
+        <div class="card-header card-header-primary">
+            <div>
+                <h4 class="card-title js-device-name">Device set up</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <a class="btn btn-success" th:href="@{/newDevice}">Set up as a new device</a>
+            <th:block th:if="${devices}">
+                <a class="btn btn-success" th:href="@{/existingDevice}">Set up as an existing device</a>
+            </th:block>
+            <th:block th:if="${!devices}">
+                <span class="btn btn-danger">There are no existing devices</span>
+            </th:block>
+
+        </div>
+    </div>
+</div>

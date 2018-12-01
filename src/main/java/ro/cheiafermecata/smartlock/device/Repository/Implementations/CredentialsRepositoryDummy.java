@@ -7,13 +7,15 @@ import ro.cheiafermecata.smartlock.device.Repository.CredentialsRepository;
 @Component
 public class CredentialsRepositoryDummy implements CredentialsRepository {
 
+    private Credentials credentials = new Credentials("alexbotici@gmail.com",0L,"test");
+
     @Override
     public Credentials get() {
-        return new Credentials("alexbotici@gmail.com","3","test");
+        return credentials;
     }
 
     @Override
-    public void save() {
-
+    public void save(Credentials credentials) {
+        this.credentials = credentials;
     }
 }

@@ -4,11 +4,11 @@ public class Credentials {
 
     private String username;
 
-    private String device;
+    private Long device;
 
     private String password;
 
-    public Credentials(String username, String device, String password) {
+    public Credentials(String username, Long device, String password) {
         this.username = username;
         this.device = device;
         this.password = password;
@@ -18,11 +18,15 @@ public class Credentials {
         return username;
     }
 
-    public String getDevice() {
+    public Long getDevice() {
         return device;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public void setDevice(Long device) {
+        this.device = device;
     }
 }

@@ -8,6 +8,6 @@ public interface CredentialsRepository {
 
     Credentials get();
 
-    void save();
+    void save(Credentials credentials);
 
 }

@@ -8,4 +8,6 @@ public interface SessionProvider {
 
     StompSession getSession();
 
+    void disconnect();
+
 }

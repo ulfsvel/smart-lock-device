@@ -70,12 +70,22 @@ public class StompSessionProvider implements SessionProvider {
         if(this.session == null){
             try{
                 Credentials credentials = this.credentialsRepository.get();
-                this.session = this.connect(credentials.getUsername(),credentials.getDevice(),credentials.getPassword());
+                this.session = this.connect(credentials.getUsername(),credentials.getDevice().toString(),credentials.getPassword());
             }catch (Exception e){
                 this.logger.error(e);
             }
         }
         return this.session;
+    }
+
+    @Override
+    public void disconnect(){
+        if(this.session != null){
+            if(this.session.isConnected()){
+                this.session.disconnect();
+            }
+            this.session = null;
+        }
     }
 
 }

@@ -1,0 +1,27 @@
+<div xmlns:th="http://www.thymeleaf.org" class="row js-devices-container">
+    <div class="card">
+        <div class="card-header card-header-primary">
+            <div>
+                <h4 class="card-title js-device-name">Set up as a new device</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/newDevice/create}" method="post">
+                <div th:replace="fragments/misc/error"></div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group bmd-form-group">
+                            <label for="deviceName" class="bmd-label-floating">Device name</label>
+                            <input id="deviceName" type="text" name="deviceName" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary float-right">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
