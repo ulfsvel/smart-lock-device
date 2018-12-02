@@ -6,9 +6,9 @@ import org.springframework.http.MediaType;
 
 import java.util.Collections;
 
-class RestHelper {
+public class RestHelper {
 
-    static HttpHeaders getAuthHeader(String username, String password) {
+    public static HttpHeaders getAuthHeader(String username, String password) {
 
         String base64Credentials = new String(
                 Base64.encodeBase64(

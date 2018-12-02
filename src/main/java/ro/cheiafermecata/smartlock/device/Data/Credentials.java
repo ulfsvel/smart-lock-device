@@ -8,6 +8,10 @@ public class Credentials {
 
     private String password;
 
+    public Credentials(){
+
+    }
+
     public Credentials(String username, Long device, String password) {
         this.username = username;
         this.device = device;
@@ -28,5 +32,13 @@ public class Credentials {
 
     public void setDevice(Long device) {
         this.device = device;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

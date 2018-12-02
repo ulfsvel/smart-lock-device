@@ -1,14 +1,11 @@
 package ro.cheiafermecata.smartlock.device.Repository.Implementations;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ro.cheiafermecata.smartlock.device.Config.Urls;
 import ro.cheiafermecata.smartlock.device.Data.Credentials;
@@ -68,7 +65,7 @@ public class RestDeviceRepository implements DeviceRepository {
                 .queryParam("name", deviceName);
         Device device = restTemplate.exchange(
                 builder.build().toString(),
-                HttpMethod.GET,
+                HttpMethod.POST,
                 new HttpEntity<>(headers),
                 Device.class).getBody();
         if (device == null) {
@@ -85,7 +82,7 @@ public class RestDeviceRepository implements DeviceRepository {
                 .queryParam("name", device.getName());
         Device response = restTemplate.exchange(
                 builder.build().toString(),
-                HttpMethod.GET,
+                HttpMethod.POST,
                 new HttpEntity<>(headers),
                 Device.class).getBody();
         if (response == null) {

@@ -13,7 +13,9 @@
             <th:block th:if="${!devices}">
                 <span class="btn btn-danger">There are no existing devices</span>
             </th:block>
-
+            <form class="row justify-content-center" th:action="@{/logout}" method="post">
+                <input th:href="@{/logout}" type="submit" value="Logout" class="btn btn-danger col-10">
+            </form>
         </div>
     </div>
 </div>

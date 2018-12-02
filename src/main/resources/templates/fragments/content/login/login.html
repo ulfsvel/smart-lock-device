@@ -6,6 +6,13 @@
         <div class="card-body">
             <form th:action="@{/j_spring_security_check}" method="post">
                 <div th:replace="fragments/misc/error"></div>
+                <th:block th:if="${logout != null}">
+                    <div class="row justify-content-center">
+                        <div class="col-10">
+                            <div th:text="${logout}" class="alert alert-success" role="alert"></div>
+                        </div>
+                    </div>
+                </th:block>
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group bmd-form-group">

@@ -10,9 +10,16 @@ import java.util.Map;
 public class LoginController {
 
     @RequestMapping("/login")
-    public String showLogin(Map<String, Object> model, @RequestParam(name = "error", required = false) String error) {
+    public String showLogin(
+            Map<String, Object> model,
+            @RequestParam(name = "error", required = false) String error,
+            @RequestParam(name = "logout", required = false) String logout
+    ) {
         if(error != null){
             model.put("error","Authentication failed");
+        }
+        if(logout != null){
+            model.put("logout","Logout successful");
         }
         model.put("content","login/login");
         return "index";

@@ -22,6 +22,9 @@
             <div class="row justify-content-center">
                 <a th:href="@{/device/unset}" class="btn btn-danger col-10">Unset</a>
             </div>
+            <form class="row justify-content-center" th:action="@{/logout}" method="post">
+                <input th:href="@{/logout}" type="submit" value="Logout" class="btn btn-danger col-10">
+            </form>
         </div>
     </div>
 </div>
