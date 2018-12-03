@@ -1,12 +1,12 @@
 package ro.cheiafermecata.smartlock.device.Repository;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ro.cheiafermecata.smartlock.device.Data.Device;
 
 import java.io.InvalidObjectException;
 import java.util.List;
 
-@Component
+@Repository
 public interface DeviceRepository {
 
     List<Device> getDevices() throws InvalidObjectException;

@@ -7,11 +7,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ro.cheiafermecata.smartlock.device.Config.Urls;
 import ro.cheiafermecata.smartlock.device.Data.Credentials;
 import ro.cheiafermecata.smartlock.device.Data.Device;
 import ro.cheiafermecata.smartlock.device.Repository.CredentialsRepository;
 import ro.cheiafermecata.smartlock.device.Repository.DeviceRepository;
+import ro.cheiafermecata.smartlock.device.Repository.UrlRepository;
 
 import java.io.InvalidObjectException;
 import java.util.List;
@@ -19,11 +19,11 @@ import java.util.List;
 @Component
 public class RestDeviceRepository implements DeviceRepository {
 
-    private static final String GET_URL = Urls.API + "/deviceDetails";
+    private String GET_URL = "/deviceDetails";
 
-    private static final String NEW_URL = Urls.API + "/deviceDetails/new";
+    private String NEW_URL = "/deviceDetails/new";
 
-    private static final String SAVE_URL = Urls.API + "/deviceDetails/rename";
+    private String SAVE_URL = "/deviceDetails/rename";
 
     private final RestTemplate restTemplate;
 
@@ -31,9 +31,12 @@ public class RestDeviceRepository implements DeviceRepository {
 
     private HttpHeaders headers = null;
 
-    public RestDeviceRepository(RestTemplate restTemplate, CredentialsRepository credentialsRepository) {
+    public RestDeviceRepository(RestTemplate restTemplate, CredentialsRepository credentialsRepository, UrlRepository urlRepository) {
         this.restTemplate = restTemplate;
         this.credentialsRepository = credentialsRepository;
+        GET_URL = urlRepository.apiUrl() + GET_URL;
+        NEW_URL = urlRepository.apiUrl() + NEW_URL;
+        SAVE_URL = urlRepository.apiUrl() + SAVE_URL;
     }
 
     private HttpHeaders getAuthHeader() {
@@ -47,7 +50,7 @@ public class RestDeviceRepository implements DeviceRepository {
     @Override
     public List<Device> getDevices() throws InvalidObjectException {
         List<Device> devices = restTemplate.exchange(
-                RestDeviceRepository.GET_URL,
+                GET_URL,
                 HttpMethod.GET,
                 new HttpEntity<>(this.getAuthHeader()),
                 new ParameterizedTypeReference<List<Device>>() {
@@ -61,7 +64,7 @@ public class RestDeviceRepository implements DeviceRepository {
     @Override
     public Device newDevice(String deviceName) throws InvalidObjectException {
         HttpHeaders headers = this.getAuthHeader();
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(RestDeviceRepository.NEW_URL)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(NEW_URL)
                 .queryParam("name", deviceName);
         Device device = restTemplate.exchange(
                 builder.build().toString(),
@@ -77,7 +80,7 @@ public class RestDeviceRepository implements DeviceRepository {
     @Override
     public Device updateDeviceName(Device device) throws InvalidObjectException {
         HttpHeaders headers = this.getAuthHeader();
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(RestDeviceRepository.SAVE_URL)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(SAVE_URL)
                 .queryParam("id", device.getId())
                 .queryParam("name", device.getName());
         Device response = restTemplate.exchange(

@@ -12,9 +12,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import ro.cheiafermecata.smartlock.device.Data.Credentials;
-import ro.cheiafermecata.smartlock.device.Data.User;
 import ro.cheiafermecata.smartlock.device.Repository.CredentialsRepository;
 import ro.cheiafermecata.smartlock.device.Repository.Implementations.RestHelper;
+import ro.cheiafermecata.smartlock.device.Repository.UrlRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +22,16 @@ import java.util.List;
 @Component
 public class RestAuthenticationProvider implements AuthenticationProvider {
 
-    private static final String LOGIN_URL = Urls.API + "/deviceDetails/auth";
+    private String LOGIN_URL = "/deviceDetails/auth";
 
     private final RestTemplate restTemplate;
 
     private final CredentialsRepository credentialsRepository;
 
-    public RestAuthenticationProvider(RestTemplate restTemplate, CredentialsRepository credentialsRepository) {
+    public RestAuthenticationProvider(RestTemplate restTemplate, CredentialsRepository credentialsRepository, UrlRepository urlRepository) {
         this.restTemplate = restTemplate;
         this.credentialsRepository = credentialsRepository;
+        LOGIN_URL = urlRepository.apiUrl() + LOGIN_URL;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         HttpHeaders headers = RestHelper.getAuthHeader(username, password);
         try {
             restTemplate.exchange(
-                    RestAuthenticationProvider.LOGIN_URL,
+                    LOGIN_URL,
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
                     Boolean.class).getBody();

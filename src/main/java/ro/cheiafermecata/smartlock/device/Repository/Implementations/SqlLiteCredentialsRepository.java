@@ -5,9 +5,6 @@ import org.springframework.stereotype.Component;
 import ro.cheiafermecata.smartlock.device.Data.Credentials;
 import ro.cheiafermecata.smartlock.device.Repository.CredentialsRepository;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.Statement;
 
 @Component
 public class SqlLiteCredentialsRepository implements CredentialsRepository {
@@ -16,7 +13,7 @@ public class SqlLiteCredentialsRepository implements CredentialsRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    SqlLiteCredentialsRepository(DataSource dataSource, JdbcTemplate jdbcTemplate){
+    SqlLiteCredentialsRepository(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
         this.credentials = new Credentials();
         try{

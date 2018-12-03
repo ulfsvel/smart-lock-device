@@ -13,9 +13,9 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
-import ro.cheiafermecata.smartlock.device.Config.Urls;
 import ro.cheiafermecata.smartlock.device.Data.Credentials;
 import ro.cheiafermecata.smartlock.device.Repository.CredentialsRepository;
+import ro.cheiafermecata.smartlock.device.Repository.UrlRepository;
 import ro.cheiafermecata.smartlock.device.WebSocket.SessionProvider;
 
 import java.util.ArrayList;
@@ -31,11 +31,14 @@ public class StompSessionProvider implements SessionProvider {
 
     private final CredentialsRepository credentialsRepository;
 
+    private final UrlRepository urlRepository;
+
     private final Logger logger = LogManager.getLogger(StompSessionProvider.class);
 
-    public StompSessionProvider(SessionHandler sessionHandler, CredentialsRepository credentialsRepository) {
+    public StompSessionProvider(SessionHandler sessionHandler, CredentialsRepository credentialsRepository, UrlRepository urlRepository) {
         this.sessionHandler = sessionHandler;
         this.credentialsRepository = credentialsRepository;
+        this.urlRepository = urlRepository;
     }
 
     private StompSession connect(
@@ -63,7 +66,7 @@ public class StompSessionProvider implements SessionProvider {
         httpHeaders.add("password",password);
         httpHeaders.add("device",device);
 
-        return stompClient.connect(Urls.WS, httpHeaders, stompHeaders, this.sessionHandler).get();
+        return stompClient.connect(urlRepository.wsUrl(), httpHeaders, stompHeaders, this.sessionHandler).get();
     }
 
     public StompSession getSession() {
