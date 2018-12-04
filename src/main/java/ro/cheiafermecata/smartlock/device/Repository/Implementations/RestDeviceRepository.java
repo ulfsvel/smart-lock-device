@@ -39,6 +39,10 @@ public class RestDeviceRepository implements DeviceRepository {
         SAVE_URL = urlRepository.apiUrl() + SAVE_URL;
     }
 
+    /**
+     * Uses the RestHelper to get the appropriate HttpHeaders
+     * @return the resulting HttpHeaders
+     */
     private HttpHeaders getAuthHeader() {
         if (this.headers == null) {
             Credentials credentials = this.credentialsRepository.get();
@@ -47,6 +51,11 @@ public class RestDeviceRepository implements DeviceRepository {
         return this.headers;
     }
 
+    /**
+     * Gets all devices from the central server
+     * @return a List of Devices
+     * @throws InvalidObjectException if no valid response was received
+     */
     @Override
     public List<Device> getDevices() throws InvalidObjectException {
         List<Device> devices = restTemplate.exchange(
@@ -61,6 +70,12 @@ public class RestDeviceRepository implements DeviceRepository {
         return devices;
     }
 
+    /**
+     * Creates a new device on the central server and gets it
+     * @param deviceName the name of the device to be created
+     * @return the new device
+     * @throws InvalidObjectException if no valid data was received
+     */
     @Override
     public Device newDevice(String deviceName) throws InvalidObjectException {
         HttpHeaders headers = this.getAuthHeader();
@@ -77,6 +92,12 @@ public class RestDeviceRepository implements DeviceRepository {
         return device;
     }
 
+    /**
+     * Changed the name of the device with id = {device.id} to {device.name}
+     * @param device the device to change
+     * @return the resulting device
+     * @throws InvalidObjectException if no valid data was received
+     */
     @Override
     public Device updateDeviceName(Device device) throws InvalidObjectException {
         HttpHeaders headers = this.getAuthHeader();

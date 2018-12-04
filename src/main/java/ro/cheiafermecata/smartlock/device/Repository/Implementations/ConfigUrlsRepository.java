@@ -4,7 +4,9 @@ import ro.cheiafermecata.smartlock.device.Repository.UrlRepository;
 
 import javax.validation.constraints.NotBlank;
 
-
+/**
+ * Will be configured as a Bean in MiscConfig
+ */
 public class ConfigUrlsRepository implements UrlRepository {
 
     @NotBlank

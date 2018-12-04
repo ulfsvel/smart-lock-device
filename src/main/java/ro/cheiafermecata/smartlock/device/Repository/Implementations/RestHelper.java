@@ -8,6 +8,12 @@ import java.util.Collections;
 
 public class RestHelper {
 
+    /**
+     * Creates the auth type basic and accept json headers
+     * @param username the username for the auth header
+     * @param password the password for the auth header
+     * @return the resulting HttpHeaders
+     */
     public static HttpHeaders getAuthHeader(String username, String password) {
 
         String base64Credentials = new String(

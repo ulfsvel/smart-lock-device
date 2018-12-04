@@ -1,6 +1,8 @@
 package ro.cheiafermecata.smartlock.device.Controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ro.cheiafermecata.smartlock.device.Data.DeviceManager;
@@ -16,7 +18,12 @@ public class DeviceController {
         this.deviceManager = deviceManager;
     }
 
-    @RequestMapping("/device/rename")
+    /**
+     * Show the rename form for the current device
+     * @param model the data to send to the view
+     * @return the name of the view
+     */
+    @GetMapping("/device/rename")
     public String renameFormAction(Map<String, Object> model) {
         if (!this.deviceManager.isDeviceSet()) {
             return "redirect:/setUp";
@@ -26,8 +33,13 @@ public class DeviceController {
         return "index";
     }
 
-
-    @RequestMapping("/device/rename/do")
+    /**
+     * Performs the rename action
+     * @param model the data to send to the user
+     * @param deviceName the new name of the device
+     * @return the name of the view
+     */
+    @PostMapping("/device/rename")
     public String renameAction(
             Map<String, Object> model,
             @RequestParam("deviceName") String deviceName
@@ -46,6 +58,11 @@ public class DeviceController {
         }
     }
 
+    /**
+     * Connects the device to the central server
+     * @param model the data to send to the view
+     * @return the name of the view
+     */
     @RequestMapping("/device/connect")
     public String deviceConnectAction(Map<String, Object> model) {
         if (!this.deviceManager.isDeviceSet()) {
@@ -54,6 +71,11 @@ public class DeviceController {
         return changeDeviceState(model, true);
     }
 
+    /**
+     * Disconnects the device from the central server
+     * @param model the data to send to the view
+     * @return the name of the view
+     */
     @RequestMapping("/device/disconnect")
     public String deviceDisconnectAction(Map<String, Object> model) {
         if (!this.deviceManager.isDeviceSet()) {
@@ -62,6 +84,12 @@ public class DeviceController {
         return changeDeviceState(model, false);
     }
 
+    /**
+     * Connects or disconnects from the central server
+     * @param model the data to send to the view
+     * @param state true to connect, false to disconnect
+     * @return the name of the view
+     */
     private String changeDeviceState(Map<String, Object> model, Boolean state) {
         try {
             if (state) {
@@ -79,6 +107,11 @@ public class DeviceController {
         return "redirect:/device";
     }
 
+    /**
+     * Shows the control panel for the current device
+     * @param model the data to send to the view
+     * @return the name of the view
+     */
     @RequestMapping("/device")
     public String deviceAction(Map<String, Object> model) {
         if (!this.deviceManager.isDeviceSet()) {
@@ -91,6 +124,10 @@ public class DeviceController {
         return "index";
     }
 
+    /**
+     * Removes the current device from memory redirects to set up
+     * @return the name of the view
+     */
     @RequestMapping("/device/unset")
     public String unsetAction() {
         if (!this.deviceManager.isDeviceSet()) {

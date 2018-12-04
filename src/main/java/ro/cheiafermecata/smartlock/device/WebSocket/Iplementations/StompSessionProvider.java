@@ -41,6 +41,15 @@ public class StompSessionProvider implements SessionProvider {
         this.urlRepository = urlRepository;
     }
 
+    /**
+     * Creates a connection for the given device with the given username and password
+     * @param username the username used for the connection
+     * @param device the id of the device to create the connection for
+     * @param password the password used for authentication
+     * @return the created connection
+     * @throws ExecutionException if there was an error creating the connection
+     * @throws InterruptedException if there was an error creating the connection
+     */
     private StompSession connect(
             String username,
             String device,
@@ -69,8 +78,13 @@ public class StompSessionProvider implements SessionProvider {
         return stompClient.connect(urlRepository.wsUrl(), httpHeaders, stompHeaders, this.sessionHandler).get();
     }
 
+    /**
+     * Gets the session from memory or creates a new one if there is none stored
+     * @return the connection to the server
+     */
+    @Override
     public StompSession getSession() {
-        if(this.session == null){
+        if(this.session == null || !this.session.isConnected()){
             try{
                 Credentials credentials = this.credentialsRepository.get();
                 this.session = this.connect(credentials.getUsername(),credentials.getDevice().toString(),credentials.getPassword());
@@ -81,6 +95,9 @@ public class StompSessionProvider implements SessionProvider {
         return this.session;
     }
 
+    /**
+     * Terminates the current connection
+     */
     @Override
     public void disconnect(){
         if(this.session != null){

@@ -19,7 +19,11 @@ public class SetUpController {
         this.deviceManager = deviceManager;
     }
 
-
+    /**
+     * Show up the initial set up page
+     * @param model the data to send to the view
+     * @return the name of the view
+     */
     @RequestMapping({"/","/setUp"})
     public String setUpAction(Map<String, Object> model){
         if(this.deviceManager.isDeviceSet()){
@@ -35,6 +39,11 @@ public class SetUpController {
         return "index";
     }
 
+    /**
+     * Shows the form to set up the device as a new one
+     * @param model the data to send to the view
+     * @return the name of the view
+     */
     @RequestMapping("/newDevice")
     public String newDeviceAction(Map<String, Object> model){
         if(this.deviceManager.isDeviceSet()){
@@ -44,6 +53,12 @@ public class SetUpController {
         return "index";
     }
 
+    /**
+     * Creates a new device and sets it as the current one
+     * @param model the data to send to the
+     * @param deviceName the name of the new device
+     * @return the name of the view
+     */
     @RequestMapping("/newDevice/create")
     public String newDeviceCreateAction(
             Map<String, Object> model,
@@ -63,6 +78,11 @@ public class SetUpController {
         return "redirect:/device";
     }
 
+    /**
+     * Shows the form to set up the device as an existing one
+     * @param model the data to send to the view
+     * @return the name of the view
+     */
     @RequestMapping("/existingDevice")
     public String existingDeviceAction(Map<String, Object> model){
         if(this.deviceManager.isDeviceSet()){
@@ -78,6 +98,12 @@ public class SetUpController {
         return "index";
     }
 
+    /**
+     * Selects the device with id = {id} as the current one
+     * @param model the data to send to the view
+     * @param id the id of the selected device
+     * @return the name of the view
+     */
     @RequestMapping("/existingDevice/select/{id}")
     public String existingDeviceSelectAction(
             Map<String, Object> model,

@@ -13,6 +13,10 @@ public class SqlLiteCredentialsRepository implements CredentialsRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    /**
+     * Creates the basic structure for the database if it does not exist
+     * @param jdbcTemplate the interface to the db
+     */
     SqlLiteCredentialsRepository(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
         this.credentials = new Credentials();
@@ -31,6 +35,10 @@ public class SqlLiteCredentialsRepository implements CredentialsRepository {
         this.credentials.setDevice(this.getDevice());
     }
 
+    /**
+     * Gets the username from the db
+     * @return the username
+     */
     private String getUsername(){
         return jdbcTemplate.queryForObject(
                 "SELECT `value` FROM `data` WHERE `key` = 'username'", new Object[] { },
@@ -38,6 +46,10 @@ public class SqlLiteCredentialsRepository implements CredentialsRepository {
         );
     }
 
+    /**
+     * Gets the password from the db
+     * @return the password
+     */
     private String getPassword(){
         return jdbcTemplate.queryForObject(
                 "SELECT `value` FROM `data` WHERE `key` = 'password'", new Object[] { },
@@ -45,6 +57,10 @@ public class SqlLiteCredentialsRepository implements CredentialsRepository {
         );
     }
 
+    /**
+     * Gets the device id from the db
+     * @return the device id
+     */
     private Long getDevice(){
         String value = jdbcTemplate.queryForObject(
                 "SELECT `value` FROM `data` WHERE `key` = 'device'", new Object[] { },
@@ -53,6 +69,10 @@ public class SqlLiteCredentialsRepository implements CredentialsRepository {
         return Long.parseLong(value);
     }
 
+    /**
+     * Updates the username in the db and in memory
+     * @param username the username to persist
+     */
     private void setUsername(String username){
         jdbcTemplate.update(
                 "UPDATE `data` SET `value` = ? WHERE `key` = 'username'",
@@ -61,6 +81,10 @@ public class SqlLiteCredentialsRepository implements CredentialsRepository {
         this.credentials.setUsername(username);
     }
 
+    /**
+     * Updates the password in the db and in memory
+     * @param password the password to persist
+     */
     private void setPassword(String password){
         jdbcTemplate.update(
                 "UPDATE `data` SET `value` = ? WHERE `key` = 'password'",
@@ -69,6 +93,10 @@ public class SqlLiteCredentialsRepository implements CredentialsRepository {
         this.credentials.setPassword(password);
     }
 
+    /**
+     * Updates the device id in the db and in memory
+     * @param device the device it to persist
+     */
     private void setDevice(Long device){
         jdbcTemplate.update(
                 "UPDATE `data` SET `value` = ? WHERE `key` = 'device'",
@@ -77,11 +105,19 @@ public class SqlLiteCredentialsRepository implements CredentialsRepository {
         this.credentials.setDevice(device);
     }
 
+    /**
+     * Return the credential from memory
+     * @return the stored credentials
+     */
     @Override
     public Credentials get() {
         return credentials;
     }
 
+    /**
+     * Updates the changed values of the stored credentials in db and in memory
+     * @param credentials the credentials to persist
+     */
     @Override
     public void save(Credentials credentials) {
         if(!this.credentials.getUsername().equals(credentials.getUsername())){

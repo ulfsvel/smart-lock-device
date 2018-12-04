@@ -9,6 +9,13 @@ import java.util.Map;
 @Controller
 public class LoginController {
 
+    /**
+     * Shows the login form and some misc messages
+     * @param model the data to send to the view
+     * @param error not null to show error message
+     * @param logout not null to show logout message
+     * @return the name of the view
+     */
     @RequestMapping("/login")
     public String showLogin(
             Map<String, Object> model,
