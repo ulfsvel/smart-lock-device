@@ -58,7 +58,9 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
             }
             return null;
         }
-
+        if(!credentials.getUsername().equals(username)){
+            credentials.setDevice(0L);
+        }
 
         credentials.setUsername(username);
         credentials.setPassword(password);
